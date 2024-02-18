@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Location</h1>
+<p>Enter your coordinates manually or click the button to get your current coordinates.</p>
+
+<form id="locationForm">
+  <label for="latitude">Latitude:</label>
+  <input type="text" id="latitude" name="latitude" placeholder="Enter latitude">
+
+  <label for="longitude">Longitude:</label>
+  <input type="text" id="longitude" name="longitude" placeholder="Enter longitude">
+  
+  <label for="disease">Search by Disease:</label>
+  <input type="text" id="disease" name="disease" placeholder="Enter disease">
+
+  <button type="button" onclick="getLocation()">Get Current Location</button>
+  <button type="button" onclick="submitLocation()">Submit</button>
+</form>
+
+<p id="demo"></p>
+
+<script>
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    alert("Geolocation is not supported by this browser.");
+  }
+}
+
+function showPosition(position) {
+  document.getElementById("latitude").value = position.coords.latitude;
+  document.getElementById("longitude").value = position.coords.longitude;
+}
+
+function submitLocation() {
+  var latitude = document.getElementById("latitude").value;
+  var longitude = document.getElementById("longitude").value;
+  var disease = document.getElementById("disease").value;
+  
+  // Send latitude, longitude, and disease to Flask backend
+  fetch('/get_hospitals', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({latitude: latitude, longitude: longitude, disease: disease})
+  })
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("demo").innerHTML = data;
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+</script>
+
+</body>
+</html>

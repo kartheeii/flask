@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospitals List</title>
+    <style>
+        /* Define CSS styles for hospital boxes */
+        .hospital-box {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+            cursor:cell; /* Add cursor pointer to indicate interactivity */
+        }
+         h1{
+            text-align: center;
+            color: brown;
+         }
+        .hospital-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .hospital-address {
+            margin-bottom: 5px;
+            display: none;
+        }
+         /* Show contact details on hover */
+         .hospital-box:hover .hospital-address {
+            display: block;
+        }
+
+        .hospital-contact {
+            
+            margin-bottom: 5px;
+        }
+
+        .hospital-coordinates {
+            font-family: sans-serif;
+            color: #666        }
+
+        /* Show contact details on hover */
+        .hospital-box:hover .hospital-contact {
+            display: block;
+        }
+
+        /* Hide contact details by default */
+        .hospital-contact {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hospitals Nearby</h1>
+    {% for hospital in hospitals %}
+        <div class="hospital-box">
+            <div class="hospital-name">{{ hospital['name'] }}</div>
+            <div class="hospital-address"><strong>Address:</strong> {{ hospital['address'] }}</div>
+            <div class="hospital-contact"><strong>Contact:</strong> {{ hospital['contact'][0]['value'] }}</div>
+            <div class="hospital-coordinates"><strong>Latitude:</strong> {{ hospital['latitude'] }}, <strong>Longitude:</strong> {{ hospital['longitude'] }}</div>
+        </div>
+    {% endfor %}
+</body>
+</html>
